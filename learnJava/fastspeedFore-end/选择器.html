@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css选择器</title>
+    <style>
+        /*元素选择器，修改某一中元素样式*/
+        h2{
+            color: blue;
+            front-size: 18px;
+            text-align: center;
+        }
+        /*类选择器，修改属性class为指定类元素的样式*/
+        .hh3 {
+            color: red;
+            front-size: 20px;
+            text-align: center;
+            text-decoration: underline;
+        }
+        /*id选择器，修改属性id为指定id的元素样式*/
+        #hh4 {
+            color: yellow;
+            front-size: 22px;
+            text-align: center;
+        }
+        /*通配选择器，修改所有元素样式*/
+        * {
+            font-family:"楷体";
+        }
+        /*子元素选择器，修改子元素样式*/
+        /*中间以大于号相连接，左边放父元素，右边放子元素，可以是元素名，类名，id*/
+         div > .son {
+            color: blue;
+            font-width:bold;
+        }
+         #father > #son {
+             color:red;
+             font-width:i;
+         }
+        /*子代和后代的区别：后代是包含子代的*/
+        /*后代选择器*/
+        /*可以发现后代选择器将之前子元素选择器表示的内容给覆盖掉了*/
+        div .son {
+            color: darkorange;
+            font-width:bold;
+        }
+        /*相邻选择器，修改相邻元素样式*/
+          h3 + h4 {
+              color: blue;
+              front-size: 18px;
+              text-align: center;
+              text-decoration: underline;
+          }
+        /*伪类选择器，修改属性class为指定类元素样式，并且添加了伪类样式*/
+        #element:hover {
+            color: red;
+            front-size: 18px;
+            text-align: center;
+        }
+
+        
+    </style>
+
+</head>
+<body>
+    <h1>不同类型的css选择器</h1>
+
+    <h2>这是一个元素选择器实例</h2>
+
+    <h3 class="hh3">这是一个类选择器实例</h3>
+    <h3>这是一个类选择器实例</h3>
+    <h6 class="hh3">这是一个类选择器实例</h6>
+
+    <h4 id="hh4">这是一个id选择器实例</h4>
+
+    <div class="father">
+        <p class="son">这是一个子元素选择器的实例</p>
+        <div>
+            <p class="son">这是一个后代选择器的实例</p>
+        </div>
+    </div>
+    <div>
+        <p class="son">这是一个子元素选择器的实例</p>
+    </div>
+    <div id="father">
+        <h3 id="son">这是一个子元素选择器的实例 </h3>
+    </div>
+
+    <div>
+        <h3>这是一个相邻选择器的实例</h3>
+        <h4>这是一个相邻选择器的实例</h4>
+        <h4>这是一个相邻选择器的实例</h4>
+    </div>
+
+    <div>
+        <p id="element">这是一个伪类选择器的实例</p>
+    </div>
+
+</body>
+</html>

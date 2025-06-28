@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单</title>
+</head>
+<body>
+<h1>注册界面</h1>
+<!--form用于创建表单，action是提交时表单数据发送的地址-->
+<form action="#">
+  <!--label标签用于创建表单的标签,for用于和元素的id绑定-->
+  <label for="username">用户名</label>
+  <!--input标签用于创建表单的输入框-->
+  <!--name属性表示上传时的表单数据的名称-->
+  <input type="text" name="username" id="username">
+  <br><br>
+  <label for="password" >密码</label>
+  <input type="password" name="password" id="password">
+  <br><br>
+  <!--radio表示单选框-->
+  <label>性别</label>
+  <input type="radio" name="gender" value="male"> male
+  <input type="radio" name="gender" value="female"> female
+  <input type="radio" name="gender" value="other"> other
+  <br><br>
+  <!--checkbox表示复选框-->
+  <label>爱好</label>
+  <input type="checkbox" name="hobby" value="sing"> 唱歌</input>
+  <input type="checkbox" name="hobby" value="dance"> 跳舞</input>
+  <input type="checkbox" name="hobby" value="rap">rap</input>
+  <input type="checkbox" name="hobby" value="basketball">篮球</input>
+  <br><br>
+  <label for="country">国籍</label>
+  <!--创建下拉列表-->
+  <select name="country" id="country">
+    <option value="china">China</option>
+    <option value="usa">USA</option>
+    <option value="japan">Japan</option>
+    <option value="korea">Korea</option>
+    <option value="england">England</option>
+    <option value="france">France</option>
+  </select>
+  <br><br>
+  <input type="submit" value="提交">
+
+</form>
+</body>
+</html>

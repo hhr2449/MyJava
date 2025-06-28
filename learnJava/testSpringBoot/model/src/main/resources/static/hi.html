@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input type="text" name="name" id="n">
+<input type="button" value="say hello" id="b"/>
+<h4></h4>
+<script type="text/javascript">
+    document.querySelector('#b').onclick = function() {
+        var n = document.querySelector('#n').value;
+        fetch("http://localhost:8080/hi?name=" + n)
+            .then(resp=>resp.text())
+            .then(text=>{
+                document.querySelector("h4").innerText = text;
+
+            })
+    }
+</script>
+</body>
+</html>

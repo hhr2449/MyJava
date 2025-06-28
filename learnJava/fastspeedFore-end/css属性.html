@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css属性</title>
+    <style>
+        .block {
+            background: yellow;
+            width:150px;
+            height:100px;
+        }
+        .inline {
+            background:pink;
+        }
+        .inline-block {
+            width:100px;
+            height:100px;
+        }
+        .block-inline {
+            display:inline;
+            background:pink;
+        }
+    </style>
+</head>
+<body>
+
+    <!--font属性：复合属性，用于设置字体-->
+    <h1 style="font: bolder 50px '华文隶书';">这是font属性的实例</h1>
+
+    <!--line-height用于控制行距-->
+    <!--注意font属性中有line-height的部分，如果写了font，那么单独的line-height就会被覆盖-->
+    <p style=" font:bolder 20px/100px '华文仿宋';">这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例这是一个line-height属性的实例</p>
+
+    <div class="block">这是一个block元素实例</div>
+    <span class="inline">这是一个inline元素实例</span>
+    <img src="https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250623193652865.png" alt="" class="inline-block">
+    <div class="block-inline">这是一个转换为inline的块元素</div>
+
+</body>
+</html>

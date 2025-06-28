@@ -1,3 +1,5 @@
+import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.util.Scanner;
 //使用import导入java标准库中util包下面的Scanner类
 
@@ -36,5 +38,45 @@ public class Hello {//Hello类，注意类名必须与文件名一致，首字�
         //可以调用其他类中的方法，只要创建要调用的方法所在类的对象即可
         Main main = new Main();
         main.method();
+
+
+        //文件的输入输出
+        PrintWriter fileOut = null;
+        try {
+            fileOut = new PrintWriter("D:\\MyJava\\learnJava\\intAndOut\\test.txt", "UTF-8");
+            fileOut.println("Hello World");
+        }
+        catch(Exception e) {
+            System.out.println("文件打开失败");
+        }
+        finally {
+            if(fileOut != null) {
+                fileOut.close();
+            }
+        }
+        //path为文件路径
+        //创建一个Scanner对象，用于读取文件
+        Scanner fileIn = null;
+        try {
+            String path;
+            //注意路径中的\需要转义
+            path = "D:\\MyJava\\learnJava\\intAndOut\\test.txt";
+            fileIn = new Scanner(Paths.get(path), "UTF-8");
+            //创建成功后就可以正常使用Scanner对象来读取文件，与控制台输入一样
+            String str = fileIn.nextLine();
+            System.out.println(str);
+        }
+        catch(Exception e) {
+            System.out.println("文件打开失败");
+        }
+        finally {
+            if(fileIn != null) {
+                fileIn.close();
+            }
+        }
+
+
+
+
     }
 }

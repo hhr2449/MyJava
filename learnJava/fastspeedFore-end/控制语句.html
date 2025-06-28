@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let age = 18;
+    if(age>= 18) {
+        console.log("已成年，允许投票");
+    }
+    else {
+        console.log("未成年，不允许投票");
+    }
+    let time = 12;
+    if(time > 12) {
+        alert("上午好");
+    }
+    else if(time >= 12 || time < 18){
+        alert("下午好");
+    }
+    else {
+        alert("晚上好");
+    }
+
+    for(let i = 0; i < 10; i++) {
+        console.log(i);
+        if(time > 10 && i == 4) {
+            break;
+        }
+    }
+    function hello(name) {
+        return "hello" + name;
+    }
+    alert(hello("张三百"));
+
+
+</script>
+
+</body>
+</html>

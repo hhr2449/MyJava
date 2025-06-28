@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>盒子模型</title>
+    <style>
+        .demo {
+            width: 300px;
+            height: 200px;
+            background:pink;
+            /*使用text-align调整水平居中，使用line-height调整竖直居中*/
+            text-align:center;
+            line-height:200px;
+            padding:50px;
+            margin:50px;
+            /*分别设置边框的宽度，样式，颜色*/
+            border:2px dotted red;
+        }
+        .border-demo {
+            width: 300px;
+            height: 200px;
+            background:purple;
+            text-align:center;
+            line-height:200px;
+            padding:50px;
+            margin:50px;
+            /*分别设置四个边框的宽度，样式，颜色*/
+            /*可以分别设置四个边框，遵循上，右，下，左的顺序*/
+            border-width: 2px 5px 0px 0px;
+            border-style:double;
+            border-color:deepskyblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo">11121212312312</div>
+    <div class="demo">13821974823749</div>
+    <div class="border-demo">这是一个边框示例</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件</title>
+</head>
+<body>
+    <button onClick="clickButton()">点击这个按钮</button>
+    <script>
+        function clickButton() {
+            let n = Math.random()*10;
+            if(n < 3) {
+                alert("你点击了按钮，但是什么也没有发生");
+            }
+            else if(n >= 3 && n < 5) {
+                alert("你点击了按钮，收获一个行列式");
+            }
+            else if(n >= 5 && n < 7) {
+                alert("你点击了按钮，收获一个矩阵");
+            }
+            else if(n >= 7 && n < 9) {
+                alert("你点击了按钮，收获一个向量");
+            }
+            else {
+                alert("你点击了按钮，收获一个标量");
+            }
+
+        }
+
+
+    </script>
+</body>
+</html>

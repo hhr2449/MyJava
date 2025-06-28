@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sub</title>
+</head>
+<body>
+<input type="number" id="a" value="0">-
+<input type="number" id="b" value="0">
+<button id="res">=</button>
+<h3></h3>
+<label for="result"></label>
+<h4 id="result"></h4>
+<script>
+    document.getElementById("res").onclick=function() {
+        let a = document.getElementById("a").value;
+        let b = document.getElementById("b").value;
+        fetch("http://localhost:8080/sub?a=" + a + "&b=" + b)
+            .then(resp=>resp.text())
+            .then(text=>{
+                document.querySelector("h3").innerText = "计算完成";
+                document.querySelector("label").innerText = "结果为：";
+                document.querySelector("h4").innerText = text;
+            })
+    }
+</script>
+</body>
+</html>

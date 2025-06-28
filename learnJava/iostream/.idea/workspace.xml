@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5924fc5d-5ac4-46c0-aedf-8489746a8c82" name="更改" comment="">
+      <change afterPath="$PROJECT_DIR$/../BigData/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BigData/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BigData/BigData.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../BigData/src/TestBigData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Employee/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Employee/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Employee/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Employee/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Employee/Employee.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Employee/src/Employee.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/Exception.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/src/CheckedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/src/TryCatch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Exception/src/UncheckedException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../array/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../array/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../array/array.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../array/src/TestArray.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/bankAccount.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/src/bank/Bank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/src/test/IllegalAccessTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../bankAccount/src/test/TestBank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/TestEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/enum.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../enum/out/production/enum/enum.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extendsInterface/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extendsInterface/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extendsInterface/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extendsInterface/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extendsInterface/extendsInterface.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../extendsInterface/src/TestInterface.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/DOM.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/css导入.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/css属性.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/css样式/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/fastspeedFore-end.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/javascript/demo1.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/javascript引入.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/事件.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/区块.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/属性.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/常见文本标签.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/控制语句.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/盒子模型.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/表单.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../fastspeedFore-end/选择器.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../firstTest/firstTest.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../generic/generic.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../generic/src/GenericClass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/inheritance.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/src/FindMethdods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../inheritance/src/Hide.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../loop_conditionalStatments/src/TestBreakAndSwitch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../loop_conditionalStatments/src/block.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/java/com/hhr2449/model/CalController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/java/com/hhr2449/model/HelloController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/resources/static/add.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/resources/static/calculator.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/resources/static/calculator2.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/resources/static/hi.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/main/resources/static/sub.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/test/java/com/hhr2449/model/testArray.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/model/src/test/java/com/hhr2449/model/testArray2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../testSpringBoot/testSpringBoot.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/firstTest.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../firstTest/src/Calculator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../intAndOut/src/Hello.java" beforeDir="false" afterPath="$PROJECT_DIR$/../intAndOut/src/Hello.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../note.md" beforeDir="false" afterPath="$PROJECT_DIR$/../note.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "hhr2449"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/hhr2449/MyJava.git",
+    "accountId": "433a066a-d064-4bcf-b417-b7998c1da754"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2z7aYZ9IpDKp6xAk2GKUoqtChVc" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.26094.121" />
+        <option value="bundled-js-predefined-d6986cc7102b-b26f3e71634d-JavaScript-IU-251.26094.121" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="5924fc5d-5ac4-46c0-aedf-8489746a8c82" name="更改" comment="" />
+      <created>1751084616220</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1751084616220</updated>
+      <workItem from="1751084617384" duration="2533000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

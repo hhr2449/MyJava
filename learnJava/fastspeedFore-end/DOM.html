@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM</title>
+</head>
+<body>
+    <div id="box1">这是一个id选择器标签</div>
+    <div class="box2">这是一个class选择器标签</div>
+    <div>普通的div标签</div>
+    <script>
+        //使用id来获取节点
+        //此时获取到的是一个元素
+        let elementId = document.getElementById("box1");
+        console.log(elementId);
+        //通过class来获取节点
+        //注意此时节点可能并不唯一，所以返回的是一个数组
+        let elementClass = document.getElementsByClassName("box2");
+        console.log(elementClass[0]);
+        //通过标签名来获取节点
+        let elementTagName = document.getElementsByTagName("div");
+        for(let i = 0; i < elementTagName.length; i++) {
+            console.log(elementTagName[i]);
+        }
+
+    </script>
+</body>
+</html>

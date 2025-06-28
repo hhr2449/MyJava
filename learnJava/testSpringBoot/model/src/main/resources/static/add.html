@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--创建两个输入框-->
+<input type="number" name="a" id="a" value="0"> +
+<input type="number" name="b" id="b" value="0">
+<!--创建按钮，id为evaluate-->
+<input type="button" value="=" id="evaluate">
+<span id="c"></span>
+<h4></h4>
+<script type="text/javascript">
+    //获取id为evaluate的元素节点，并且为其创建onclick事件，将事件与函数function绑定
+    document.querySelector('#evaluate').onclick = function() {
+        //变量a,b就是之前两个输入框获取的value
+        var a = document.querySelector('#a').value;
+        var b = document.querySelector('#b').value;
+        //fetch(url)函数用于向浏览器发送请求，返回一个promise对象
+        fetch("http://localhost:8080/add?a=" + a + "&b=" + b)
+            //然后用text()方法获取响应数据
+            .then(resp=>resp.text())
+            //把之前获取的text插入到h4标签中，此时界面上就会呈现出结果了
+            .then(text=>{
+                document.querySelector("h4").innerText = text;
+
+            })
+    }
+</script>
+</body>
+</html>
