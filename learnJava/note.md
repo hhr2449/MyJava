@@ -357,14 +357,14 @@ label:
                     //此时只会跳出第二层if，会去执行第六个if
                     break label2;
                 }
-                if( true) {
+                if(true) {
                     System.out.println("第四个if语句");
                 }
-                if( true) {
+                if(true) {
                     System.out.println("第五个if语句");
                 }
             }
-            if( true) {
+            if(true) {
                 System.out.println("第六个if语句");
             }
         }
@@ -385,14 +385,14 @@ label:
                     //直接跳出最外层if
                     break label;
                 }
-                if( true) {
+                if(true) {
                     System.out.println("第四个if语句");
                 }
-                if( true) {
+                if(true) {
                     System.out.println("第五个if语句");
                 }
             }
-            if( true) {
+            if(true) {
                 System.out.println("第六个if语句");
             }
         }
@@ -986,6 +986,8 @@ transient:
 
 * byte:8位，short:16位，int:32位，long:64位
 
+* 一个对象的引用是32位
+
 class:类
 
 interface:接口
@@ -1152,6 +1154,7 @@ new Date()创建出一个对象d占用的内存空间
 ![image-20250625111713716](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250625111713716.png)
 
 String表示的是不变字符串，所以不能直接对String类对象的内容进行修改，而是通过生成新的字符串的方式修改
+（注意与cpp不同，cpp的字符串是一个字符数组，java的字符串是一个不变的对象）
 
 
 
@@ -1587,7 +1590,7 @@ public class Hide {
 
 • 覆盖方法的访问权限可以比被覆盖的宽松，但是不能更为严
 
-##### **super**:
+##### **super**
 
 用来引用当前对象的父类：
 
@@ -1597,12 +1600,136 @@ public class Hide {
 
 #### 多态
 
+#### 方法的查找
+
+* 实例方法的查找
+
+从对象创建时的类开始，沿着继承层次向上查找，并且调用**第一次**查找到的方法
+
+1. 当超类和子类中声明了同样的方法，使用超类的引用指向子类的对象，并且调用该方法，则会从实际指向的对象开始查找，在子类这种查找到了对应的方法，并且调用
+
+```java
+class SuperClass1{
+    public void method1(){
+        System.out.println("SuperClass1 method1");
+    }
+}
+
+class SuperClass2 extends SuperClass1{
+    @Override
+    public void method1(){
+        System.out.println("SuperClass2 method1");
+    }
+}
+
+class SubClass1 extends SuperClass2{
+    @Override
+    public void method1(){
+        System.out.println("SubClass method1");
+    }
+}
+
+public class FindMethdods {
+    SuperClass1 s = new SubClass1();
+    public void test(){
+        s.method1();
+    }
+    public static void main(String[] args) {
+        new FindMethdods().test();
+    }
+}
+```
+
+从SubClass1开始查找，发现SubClass1中就有这个方法，所以直接调用SubClass1中的这个方法
+
+2. 当超类中声明了某方法但是子类中没有，则会从子类开始向上查找超类，找到第一次声明了该方法的超类并且调用（注意不一定时引用的类型）
+
+   ```java
+   class SuperClass1{
+       public void method1(){
+           System.out.println("SuperClass1 method1");
+       }
+   }
+   
+   class SuperClass2 extends SuperClass1{
+       @Override
+       public void method1(){
+           System.out.println("SuperClass2 method1");
+       }
+   }
+   
+   class SubClass1 extends SuperClass2{
+   }
+   
+   public class FindMethdods {
+       SuperClass1 s = new SubClass1();
+       public void test(){
+           s.method1();
+       }
+       public static void main(String[] args) {
+           new FindMethdods().test();
+       }
+   }
+   ```
+
+从SubClass1开始查找，发现SubClass1中没有该方法，接着查找SuperClass2，发现该方法，调用
+
+虽然引用的类型是SuperClass1，但是调用的是SuperClass2的方法
+
+* 类方法的查找
+
+  ```java
+  class SuperClass1{
+      public static void SMethods() {
+          System.out.println("SuperClass1 static method");
+      }
+      public void method1(){
+          System.out.println("SuperClass1 method1");
+      }
+  }
+  
+  class SuperClass2 extends SuperClass1{
+      public static void SMethods() {
+          System.out.println("SuperClass2 static method");
+      }
+      @Override
+      public void method1(){
+          System.out.println("SuperClass2 method1");
+      }
+  }
+  
+  class SubClass1 extends SuperClass2{
+      public static void SMethods() {
+          System.out.println("SubClass1 static method");
+      }
+  }
+  
+  public class FindMethdods {
+      public void test(){
+          SuperClass1 s = new SubClass1();
+          s.method1();
+          s.SMethods();
+      }
+      public static void main(String[] args) {
+          new FindMethdods().test();
+      }
+  }
+  ```
+
+类方法不会发生多态，在编译期间就根据引用的类型来确定了选哟调用的函数，所以类方法调用跟实际指向的对象类型无关，只和引用变量的类型有关
+
+![image-20250628100425737](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628100425737.png)
+
+
+
+#### 多态的实现
+
 静态多态：由方法重载来实现
 
-动态多态：由方法重写实现
+动态多态：由方法重写实现==注意动态多态只会在实例方法中发生，不会在类方法中发生，因为类方法一定是早绑定的==
 
 * 基类的引用可以引用派生类的对象
-* 当使用基类的引用来调用经过重写的方法时，会根据引用的对象来决定实际调用
+* 当使用基类的引用来调用经过重写的方法时，会根据引用的对象来决定实际调用==（发生晚绑定）==
 * 示例：
 
 ```java
@@ -2033,7 +2160,7 @@ Fammer类中有feedWater方法，传入基类引用animal，可以实现多态�
            tiger.move("Feeding Room"); 
            tiger.hunt(animal);
        }  
-       public void bringHunt(Snake snake, Animal animal){  
+    public void bringHunt(Snake snake, Animal animal){  
            bringFood("Feeding Room"); 
            snake.move("Feeding Room"); 
            snake.hunt(animal);
@@ -2229,6 +2356,87 @@ public class TestInterface {
 }
 ```
 
+#### 比较接口
+
+1. 使用comparable<T>接口:里面有compareTo方法，一般定义为a.compareTo(b)如果a>b则返回正数，a<b返回负数，a=b返回0，当调用Collections.sort(数组)时会自动调用数组类型的compareTo方法
+
+2. 使用comparator<T>接口：里面有compare方法，同样定义为compare(a,b)如果a>b返回正数，当调用Collections.sort(数组，comparator<T>类对象)时会使用compare方法进行比较
+
+3. sort方法会按照定义好的方法规则进行升序排序
+
+   ```java
+   import java.util.Arrays;
+   import java.util.Comparator;
+   import java.util.List;
+   
+   //类本身实现Comparable接口
+   class People implements Comparable<People>{
+       String name;
+       int age;
+       int salary;
+       public People(String name, int age, int salary) {
+           this.name = name;
+           this.age = age;
+           this.salary = salary;
+       }
+       @Override
+       public String toString() {
+           return name + " " + age + " " + salary;
+       }
+       @Override
+       public int compareTo(People p) {
+           double rate = (double)salary / age;
+           double rate2 = (double)p.salary / p.age;
+           //前面小则返回负数
+           if(rate < rate2) {
+               return -1;
+           }
+           else if(rate > rate2) {
+               return 1;
+           }
+           else{
+               return 0;
+           }
+       }
+   
+   }
+   
+   //实现专门的comparator接口
+   class PeopleComparator implements Comparator<People> {
+       @Override
+       public int compare(People p1, People p2) {
+           return p1.age - p2.age;
+       }
+   }
+   
+   
+   
+   public class Compare {
+       public static void main(String[] args) {
+           People[] p =  new People[4];
+           p[0] = new People("Tom", 18, 5000);
+           p[1] = new People("Jerry", 20, 6000);
+           p[2] = new People("Mike", 19, 7000);
+           p[3] = new People("Kate", 18, 8000);
+           //直接排序则会使用类本身实现的compareTo方法
+           //sort方法是按照定义的比较方法升序排列
+           Arrays.sort(p);
+           for(People people : p) {
+               System.out.println(people.toString());
+           }
+           System.out.println("--------------------------------");
+           PeopleComparator pc = new PeopleComparator();
+           //可以指定比较器
+           Arrays.sort(p, pc);
+           for(People people : p) {
+               System.out.println(people.toString());
+           }
+       }
+   }
+   ```
+
+![image-20250630102947114](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630102947114.png)
+
 ### 泛型
 
 将类型作为参数，增加程序的通用性
@@ -2401,3 +2609,1424 @@ public class GenericClass<T> {
 2. 引用类型，转换为引用本身类型的超类
 
 3. 引用类型，转换为引用本身类型实现过的接口
+
+
+
+
+
+## 异常处理和输入输出流（lesson3）
+
+
+
+
+
+### 异常处理
+
+#### 异常的概念
+
+异常是一种特殊的运行错误**对象**
+
+java中声明了很多异常类,每种异常类都包含：1.该异常的信息  2.处理该异常的方法
+
+每当java程序运行时发生了可识别的运行错误时，该错误都有一个**异常类**与之对应，系统就会产生一个该异常类的对象并提交给运行时系统，即抛出（throw）一个异常
+
+运行时系统得到异常对象后会去寻找能够处理异常的方法，并将异常交给这个方法处理，称为捕获(catch)异常
+
+如果没有找到捕获异常的地方，则停止运行
+
+* 异常是一个对象,里面封装了异常信息和处理方法
+* 每当出现运行错误，系统都会创建异常对象
+
+处理异常的方法：
+
+1. 程序中不处理异常，将异常抛出给java虚拟机，Java虚拟机捕获异常，给出异常信息并且终止程序
+2. 在自己的程序中捕获异常并且处理异常（try-catch语句）
+
+错误的分类：
+
+1. 错误：
+
+   致命性的，程序无法处理的
+
+   Error类是所有错误类的超类
+
+   无法使用try-catch语句进行捕获处理，程序会停止运行并且抛出错误信息
+
+2. 异常:
+
+   非致命性的，可以由程序捕获和处理
+
+   Exception类是所有异常类的超类
+
+   异常的分类：
+
+   1. 非检查型异常：
+
+      不期望程序捕获的异常，无需声明，编译器也不进行检查
+
+      编译时不会产生错误，但是运行时遇到了会报错
+
+      ```java
+      public static void main(String[] args) {
+          int[] a = new int[4];
+          System.out.println(a[5]);
+      }
+      ```
+
+      
+
+      ![image-20250628113014823](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628113014823.png)
+
+      ```java
+      //使用try-catch语句捕获并且处理
+      public static void main(String[] args) {
+          int[] a = new int[4];
+          try {
+              System.out.println(a[5]);
+          }
+          catch (ArrayIndexOutOfBoundsException e) {
+              System.out.println("Array index out of bound");
+          }
+          try {
+              int c = 1 / 0;
+          }
+          catch (ArithmeticException e) {
+              System.out.println("Divide by zero");
+          }
+      }
+      ```
+   
+      
+   
+      继承自RuntimeException
+   
+      原因：
+   
+      * 引发RuntimmeException的操作在程序中往往会频繁出现，例如使用空引用的异常，如果每次使用对象都要写一个try-catch来捕获空引用的错误就太麻烦了
+      * 这些异常表示的问题可以使用检查性语句来处理，不需要将其作为异常来处理。你如除数为0的问题可以提前检查除数，空引用的问题可以提前检查引用是否为空
+   
+   2. 检查型异常：
+   
+      必须捕获并检查
+   
+      编译器强制要求在可能产生检查型异常的地方进行异常处理，否则会报错
+   
+      例子：
+   
+      ```Java
+      public static void main(String[] args) {
+          FileReader fr = new FileReader("test.txt"); // 编译失败！没有处理FileNotFoundException
+      }
+      ```
+      
+      修改：
+      
+      ```java
+      public static void main(String[] args) throws FileNotFoundException {//声明异常
+          FileReader fr = new FileReader("test.txt"); 
+      }
+      ```
+      
+      
+      
+      或是使用try-catch语句捕获
+      
+      ```java
+      public class CheckedException {
+          public static void main(String[] args) throws FileNotFoundException {
+              try {
+                  FileReader fr = new FileReader("test.txt");
+              }
+              catch (FileNotFoundException e) {
+                  e.printStackTrace();
+              }
+          }
+      }
+      ```
+      
+      
+   
+   
+
+#### 异常处理
+
+发生异常后有两种处理方法：
+
+1. 捕获并且处理异常
+
+2. 将异常向上抛出给其调用者方法（可以声明抛出异常但是不处理异常，将异常交给调用者处理，知道有合适的方法将该异常捕获）
+
+   如果一直不处理异常，则最后会将异常抛出给java虚拟机，然后给出异常信息并且终止程序
+
+   ```java
+   class Test2 {
+       void method1() throws ArithmeticException{
+           int a = 1/0;//在method1中抛出异常但是不处理，异常会被抛出到调用者方法
+           System.out.println("Inside method1");//注意异常语句之后的语句不会被执行了
+       }
+   
+       void method2() {
+           method1();//调用了method1，接受了method1抛出的异常，但是不处理，继续抛出
+       }
+   
+       void method3() {
+           method2();//调用了method2，接受了method2抛出的异常，但是不处理，继续抛出
+       }
+       void method4() {
+           try {
+               method3();//调用了method3，接受了method3抛出的异常
+               
+           }
+           catch (ArithmeticException e) {//将异常进行捕获并且处理
+               System.out.println("Caught");
+               e.getMessage();//输出异常信息
+               e.printStackTrace();//输出调用栈
+           }
+       }
+   }
+   
+   public class TryCatch {
+       public static void main(String[] args) {
+           Test2 t = new Test2();
+           t.method4();
+       }
+   }
+   ```
+
+
+
+![image-20250628120330396](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628120330396.png)
+
+
+
+![image-20250630104008005](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630104008005.png)
+
+![image-20250628114831458](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628114831458.png)
+
+如果有多个catch语句，则执行了一个合适的catch语句之后就不会在向后执行了，所以要将特殊的异常放在前面
+
+注意产生异常的语句后面的代码不会被执行
+
+
+
+有一些类的API会声明可能抛出的异常，所以调用这些方法的时候要进行异常处理
+
+![image-20250630110432386](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630110432386.png)
+
+### 输入输出流
+
+#### 基本概念
+
+将输入输出抽象为信息的流动
+
+预定义的I/O流类
+
+* 从方向：
+
+  方向是以程序的视角来说的
+
+  1. 输入流：读到程序中
+  2. 输出流：从程序输出
+
+* 从功能：
+  1. 节点流
+  2. 处理流
+  
+* 从内容
+  1. 字符流（处理文本）：以字符为最小处理单元（16位unicode）
+  
+     ![image-20250630111630605](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630111630605.png)
+  
+  2. 字节流（处理二进制文件）：以字节为最小处理单元![image-20250630111603465](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630111603465.png)
+  
+  3. 对象流：以对象位读写单位（对象的引用，32位）
+  
+     ![image-20250630111728560](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630111728560.png)
+
+用于读写的流：
+
+![image-20250628122806034](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628122806034.png)
+
+#### 标准输入输出对象
+
+均为System类中的静态对象，可以使用类名System来直接调用
+
+1. System.in:是InputStream类的对象，标准输入流，用于接受从键盘的输入
+2. System.out:是PrintStream类的对象，标准输出流，用于向屏幕输出
+3. System.err:是PrintStream类的对象，标准错误信息输出流
+
+Scanner类：是处理流，用于将读取进来的内容赋予类型特征
+
+#### InputStream
+
+![image-20250630112407630](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630112407630.png)
+
+`long skip(long n)`表示跳过n个字节，返回值是实际跳过的字节数
+
+#### 文件描述
+
+类File提供了一种与机器无关的方式用来描述一个文件的属性（不同的操作系统中文件路径的描述不同）
+
+File中可访问的成员变量：
+
+```java
+pathSeparator`, `pathSeparatorChar`, `separator`, `separatorChar
+```
+
+均为静态常量，pathSeparator表示文件路径分割符（如;）
+
+separator表示目录层级分割符(如`\`)
+
+私有成员变量：path用于具体储存文件的路径
+
+解决跨平台问题：不同操作系统中文件的分隔符不同(比如`\`和`/`)，java在拼接文件路径的时候会避免使用具体的分隔符号，而是使用静态变量`pathSeparator`和`separator`，然后jvm会根据具体的操作系统来输出对应的分隔符
+
+`// 跨平台安全的路径拼接
+File file = new File("data" + File.separator + "test.txt");`
+
+##### 构造方法
+
+1. `File(String path)`通过完整的路径字符串来进行构造，`File file1 = new File("C:/test/demo.txt");`
+2. `File(String path, String name)`通过父路径字符串和文件/文件夹名字来构造，比如说`File file = new File("C:/test", "demo.txt"); `表示路径c:/test文件夹下面的demo.txt文件对象
+3. `File(File path, String)`通过父路径File对象和文件/目录名来创建
+
+##### 文件名处理
+
+![image-20250630145827229](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630145827229.png)
+
+* getName()方法只能得到文件名，不包含目录
+
+* getPath得到文件构造时的原始路径，可能是相对或绝对
+* getAbsolutePath得到绝对路径，如果原始路径是相对路径会自动补全
+* getParent得到文件的上一级目录名称
+* renameTo将当前文件名更改为提供的文件对象的路径
+
+##### 文件属性
+
+![image-20250630150159188](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630150159188.png)
+
+##### 文件描述
+
+![image-20250630150253475](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630150253475.png)
+
+注意：
+
+* list()方法的返回值不是字符串，是字符串数组String[]，里面包含了目录下的所有文件（包括文件夹）的名称
+* listFiles()方法返回File[]，里面放的是目录下的所有文件的File对象（可以使用这个来递归遍历文件夹）
+* list()和listFiles()方法可以接受FilenameFilter参数，用于过滤出符合要求的File对象
+* mkdir会创建当前调用该方法的File对象中描述的文件夹，mkdirs类似，区别是mkdir会补全不存在的父目录
+* createNewFile可以用于创建文件
+
+综合示例：
+
+```java
+import java.io.File;
+import java.io.IOException;
+
+public class Demo1 {
+    public static void main(String[] args) {
+        //静态常量：文件分隔符
+        System.out.println("pathSeparator:"+ File.pathSeparator);
+        System.out.println("pathSeparatorChar:"+ File.pathSeparatorChar);
+        System.out.println("Separator:" + File.separator);
+        System.out.println("SeparatorChar:" + File.separatorChar);
+        //使用路径来构造
+        File f = new File("D:\\MyJava\\firstTest");
+        //判断是否存在
+        System.out.println("isExist:" + f.exists());
+        //判断是否是文件
+        System.out.println("isFile:" + f.isFile());
+        //获取名字
+        System.out.println("getName:" + f.getName());
+        //获取路径
+        System.out.println("getPath:" + f.getPath());
+        //获取绝对路径
+        System.out.println("getAbsolutePath:" + f.getAbsolutePath());
+        //获取上一级目录名
+        System.out.println("getParent:" + f.getParent());
+        //获取文件列表
+        String[] fileList = f.list();
+        for(String s : fileList) {
+            System.out.println(s);
+        }
+        //获取目录下文件对象
+        File[] fileList2 = f.listFiles();
+        for(File file : fileList2) {
+            System.out.println(file.getName());
+        }
+        //创建目录
+        File f2 =  new File("D:\\MyJava\\firstTest\\test");
+        f2.mkdir();
+        if(f2.exists()) {
+            System.out.println("创建成功");
+        }
+        //创建文件
+        File f3 = new File("D:\\MyJava\\firstTest\\test\\main.cpp");
+        try{
+            f3.createNewFile();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(f3.exists()) {
+            System.out.println("创建成功");
+        }
+        //删除文件
+        f3.delete();
+        if(!f3.exists()){
+            System.out.println("删除成功");
+        }
+        //删除目录
+        f2.delete();
+        if(!f2.exists()) {
+            System.out.println("删除成功");
+        }
+        //目录改名
+        File f4 = new File("D:\\MyJava\\FirstTest");
+        f.renameTo(f4);
+        //获取文件大小
+        for(File file : fileList2) {
+            System.out.println("the length of " + file.getName() + " is " + file.length());
+        }
+
+    }
+}
+```
+
+![image-20250630155309233](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630155309233.png)
+
+##### 文件处理
+
+`FilenameFilter`接口
+
+里面有方法boolean accept(File dir, String name),其中dir表示当前文件所在的文件夹，name表示文件的名称，如果返回值为true在文件夹dir下名字为name的文件就会被过滤出来
+
+一般在list(filter)和listFiles(filter)中使用，并且一般回创建匿名对象来作为参数
+
+##### 综合小工具
+
+使用以上知识制作的一个可以指定删除文件夹中满足wwene条件的文件和文件夹的工具
+
+```java
+/*
+主方法：deleteSpecialFileInDir(File file, FilenameFilter filter);
+接受一个目录和一个实现了FilenameFilter接口的过滤器，删除目录下的所有满足filter的文件。
+deleteDir(File file)方法：接受一个file对象，删除file对象代表的目录
+实现：如果为空，直接删除，如果不为空，遍历其中的File对象，如果为目录对象，
+则调用deleteFile方法进行递归删除，如果是文件对象，则使用delete()方法进行删除。
+主过程：遍历file中File对象，如果是满足要求的，直接删除，
+对于不满足要求的File对象中的的目录对象进行deleteSpecialFileInDir递归调用
+*/
+
+
+import java.io.File;
+import java.io.FilenameFilter;
+
+public class DeleteTool {
+    public static void deleteDir(File file) {
+        //要求一定是实际存在的目录对象
+        if(!(file.exists() && file.isDirectory())) {
+            System.out.println(file.getName() + "不是目录对象！");
+            return;
+        }
+        //获取文件夹下面的所有File对象
+        File[] filesInDir = file.listFiles();
+        //如果是空目录,直接删除即可
+        if(filesInDir == null) {
+            file.delete();
+            return;
+        }
+        //如果不是空目录，则进行遍历
+        for(File f : filesInDir) {
+            //若为目录，则递归调用
+            if(f.isDirectory()) {
+                deleteDir(f);
+            }
+            else {
+                //是普通文件，则使用delete()方法进行删除
+                f.delete();
+            }
+        }
+        file.delete();
+    }
+    public static void deleteSpecialFileInDir(File file, FilenameFilter filter) {
+        //要求必须是实际存在的目录对象
+        if(!(file.exists() && file.isDirectory())) {
+            System.out.println(file.getName() + "不是目录对象！");
+            return;
+        }
+        //获取目录下所有File对象
+        File[] filesList = file.listFiles();
+        if(filesList == null) {
+            System.out.println(file.getName() + "目录为空！");
+        }
+        for(File f : filesList) {
+            //遍历所有File对象，如果其名称满足要求，则删除
+            if (filter.accept(file, f.getName())) {
+                if (f.isDirectory()) {
+                    deleteDir(f);
+                }
+                else {
+                    f.delete();
+                }
+            }
+            //对于名称不满足要求的，如果是目录，就递归，文件不管
+            else if(f.isDirectory()){
+                // 递归处理未匹配的目录
+                deleteSpecialFileInDir(f, filter);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        File file = new File("D:\\桌面\\程序设计");
+        //使用一个实现了FilenameFilter接口的匿名对象
+        //dir表示当前正在遍历的父目录
+        //如果dir中的某文件名在匿名对象中定义的accept方法中返回true,则该对象被过滤出来
+        deleteSpecialFileInDir(file, new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                boolean result = false;
+                if(name.endsWith(".sln")||name.endsWith(".vcxproj")
+                        ||name.endsWith(".filters")||name.endsWith(".user")
+                        ||name.equals(".vs")||name.equals("x64")
+                   		//这里表示当前文件所处的文件夹名称和当前接受检验的文件夹名称一样
+                        ||name.equals(dir.getName())) {
+                    result = true;
+                }
+                return result;
+            }
+        });
+    }
+}
+```
+
+#### 文件的顺序处理(字节流)
+
+使用FileInputStream类和FileOutputStream类来进行文件的顺序读写
+
+注意这两个类都是字节流，是一个字节一个字节进行读写
+
+==知识点：在utf-8中一个英文字母占1个字节，一个汉字占3个字节==
+
+* 读取文件
+
+```java
+public class ReadAndWrite {
+    public static void main(String[] args) {
+        try {
+            //使用文件地址来初始化一个FileInputStream对象
+            FileInputStream fis = new FileInputStream("D:\\MyJava\\learnJava\\File\\新建 文本文档.txt");
+            int data;
+            System.out.println("the content of file is: ");
+            //read()方法用于挨个读取，返回的值是字节的ASCII码值，如果读到文件末尾就返回-1
+            while((data = fis.read()) != -1){
+                System.out.print((char)data);
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("文件不存在");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("文件读取错误");
+            e.printStackTrace();
+        }
+
+        try {
+            FileInputStream fis = new FileInputStream("D:\\MyJava\\learnJava\\File\\新建 文本文档.txt");
+            byte[] b = new byte[10];
+            int len;
+            System.out.println("");
+            System.out.println("the content of file is:");
+            //read(byte[] b)方法用于批量读取，将读到的字节储存进数组b中
+            // 返回值是实际读取的字节数，实际读取到的字节数是文件中的可读字节数和b的容量中的最小值
+            while((len = fis.read(b)) != -1) {
+                System.out.print("这次读到的字节数是： " + len + " ");
+                System.out.println(new String(b, 0, len));
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("文件不存在");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("文件读取错误");
+            e.printStackTrace();
+        }
+
+        try {
+            FileInputStream fis = new FileInputStream("D:\\MyJava\\learnJava\\File\\新建 文本文档.txt");
+            byte[] b = new byte[10];
+            System.out.println("可读字节数： ");
+            //使用available()方法获取可读字节数
+            System.out.println(fis.available());
+            System.out.println("现在跳过10个");
+            //使用skip()方法可以跳过一定的字节数，返回值是实际跳过的字节数
+            fis.skip(10);
+            System.out.println("跳过后的可读字节数： " + fis.available());
+            System.out.println("现在开始读取");
+            int len;
+            //使用read(byte[] b, int off, int len)方法,从数组b的索引off出开始放置，每次最多放len个
+            while((len = fis.read(b, 3, 5)) != -1) {
+                System.out.print("这次读到的字节数是： " + len + " ");
+                System.out.println(new String(b, 3, len));
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("文件不存在");
+            e.printStackTrace();
+        }
+        catch (IOException e) {
+            System.out.println("文件读取错误");
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+![image-20250630200626248](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630200626248.png)
+
+==有一个特殊的错误：字节流的读写是一个字节一个字节的，而一个汉字有3个字节，所以使用字节流很容易将汉字字符截断导致乱码==
+
+![image-20250630201526953](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630201526953.png)
+
+
+
+* 写入文件
+
+  
+
+  * `fileOutputStream(String path)`构造函数
+  * `write(int b)`写入单个字节（使用Ascall码），`write(byte b[])`将数组b整个写入，`write(byte b[],int off,int len)`将数组b从下标off开始的len个字节写入
+  * `content.getBytes("UTF-8")`content是一个字符串，该方法用于以指定编码将字符串转化为字符数组
+
+  ```java
+  try {
+      FileOutputStream ofs = new FileOutputStream("D:\\MyJava\\learnJava\\File\\新建 文本文档 (2).txt");
+      //写入单个字符，使用Ascall码
+      ofs.write(97);
+      ofs.write(98);
+      String content = "Hello World";
+      byte[] b = content.getBytes("UTF-8");
+      byte[] b2 = content.getBytes();
+      //写入整个数组b
+      ofs.write(b);
+      //将数组的从下标3开始的5个字节写入
+      ofs.write(b2,3,5);
+  
+  }
+  catch (FileNotFoundException e) {
+      System.out.println("文件不存在");
+      e.printStackTrace();
+  }
+  catch (IOException e) {
+      System.out.println("文件写入错误");
+      e.printStackTrace();
+  }
+  ```
+
+  ![image-20250630200733461](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630200733461.png)
+
+  同样，如果要使用字节流写入汉字，会发现如果直接将数组写入是正常的，但是如果只是写入一部分数组就有可能会截断
+
+  ![image-20250630202108127](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250630202108127.png)
+
+
+
+#### 字符流
+
+* 抽象基类：Reader类和Writer类
+
+* 编码转换流：
+
+  1. InputStreamReader类：将字节流转化为字符流进行读取
+
+  2. OutputStreamWriter类：将字符流转化为字节流输出
+
+     优势：可以指定编码方式
+
+* 文件字符流：FileReader类和FileWriter类，使用默认编码集，编码不可控
+
+* 缓冲字符流：BufferReader和BufferWriter，存在缓冲区，支持整行读取
+
+
+
+## java集合框架 
+
+### 概述
+
+集合：一类用来储存多个对象的数据结构（比如Set,List,Vector等等）
+
+集合框架：为了表示和操作集合类型而规定的一种统一的体系结构（为了规范对于集合的操作）。提供了一组通用的接口用于规定一些集合通用的操作（查询，添加，删除等），然后构造不同的类来实现这些接口，从而构造出不同的数据结构
+
+提供了一些现成的数据结构可供使用
+
+将同类型的对象汇聚成整体，方便处理，可以动态改变大小
+
+集合框架的内容：
+
+1. 对外的接口（规定了一些标准的对集合的操作）
+2. 实现接口的类（也就是平时常用的一些数据结构）
+3. 对集合进行运算的一些算法
+
+集合框架接口：
+
+规定了一些对集合类型的一般操作
+
+![image-20250628185623095](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628185623095.png)
+
+主要又两种类型的接口，一种是Collection,表示对象的集合，一种是Map，表示键值对
+
+这两个根接口又派生出来一些子接口
+
+Collection方法中的一些常见操作：
+
+* int size():返回集合中对象的个数
+* boolean isEmpty() : 判断集合中是否还包含有元素
+* boolean contains(Object obj):判断对象obj是否在集合中
+* boolean add(Object obj):将obj加入集合中
+* boolean addAll(Collection<> c):将c的所有元素都加入集合中
+* boolean remove(Object obj):删除对象
+
+### 常见数据结构
+
+List:
+
+1. ArrayList:相当于vector
+
+   ```java
+   //ArrayList类似cpp中的 vector,可以动态扩容
+   ArrayList<String> arrayList = new ArrayList<> ();
+   //使用add方法添加元素
+   arrayList.add("apple");
+   arrayList.add("apple");
+   arrayList.add("banana");
+   arrayList.add("orange");
+   //使用remove方法移除元素
+   arrayList.remove("banana");
+   arrayList.add("pear");
+   //使用set方法修改下表为idx的元素
+   arrayList.set(1, "watermelon");
+   //不能使用[]访问元素，应该使用get方法
+   System.out.println("索引1的元素是" + arrayList.get(1));
+   //java中提供了toString方法，打印数组
+   System.out.println("Array: " + arrayList);
+   //可以遍历
+   for(int i = 0; i < arrayList.size(); i++) {
+       System.out.println(arrayList.get(i));
+   }
+   ```
+
+   ![image-20250628193803885](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628193803885.png)
+
+2. LinkedList:相当于list和deque的结合体，底层实现是链表，增删方便
+
+   ```java
+   //LinkedList
+   //操作是类似的，只是可以定向增，删，查首末元素
+   LinkedList<String> linkedlist = new LinkedList<> ();
+   linkedlist.add("apple");
+   linkedlist.addFirst("orange");
+   linkedlist.addLast("pear");
+   System.out.println("LinkedList: " + linkedlist);
+   System.out.println("第一个元素是" + linkedlist.getFirst());
+   System.out.println("最后一个元素是" + linkedlist.getLast());
+   //可以使用下标遍历
+   for(int i = 0; i < linkedlist.size(); i++) {
+       System.out.println(linkedlist.get(i));
+   }
+   //可以使用迭代器遍历
+   Iterator<String> it = linkedlist.iterator();
+   while(it.hasNext()) {
+       System.out.println(it.next());
+   }
+   linkedlist.removeFirst();
+   linkedlist.removeLast();
+   System.out.println("LinkedList: " + linkedlist);
+   ```
+
+![image-20250628200015606](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628200015606.png)
+
+Set:
+
+1. HashSet:无序，不重复
+
+   ```java
+   //Set
+   HashSet<String> hashSet = new HashSet<>();
+   //Set中的元素不会重复
+   hashSet.add("apple");
+   hashSet.add("apple");
+   hashSet.add("banana");
+   hashSet.add("orange");
+   hashSet.add("pear");
+   System.out.println("Set: " + hashSet);
+   //一样的添加和移除方法
+   hashSet.remove("apple");
+   System.out.println("Set: " + hashSet);
+   //使用迭代器遍历
+   it = hashSet.iterator();
+   while(it.hasNext()) {
+       System.out.println(it.next());
+   }
+   //使用toArray方法将set转换为数组
+   for(int i = 0; i < hashSet.size(); i++) {
+       System.out.println(hashSet.toArray()[i]);
+   }
+   ```
+
+   ![image-20250628200311619](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628200311619.png)
+
+2. LinkedHashSet:保留插入顺序
+
+3. TreeSet:有序，不重复
+
+Map:
+
+1. HashMap:key无序
+
+   ```java
+   // Map
+   HashMap<Integer, String> hashmap = new HashMap<>();
+   //使用put方法来添加元素
+   hashmap.put(1, "apple");
+   hashmap.put(2, "banana");
+   hashmap.put(3, "orange");
+   System.out.println("Map: " + hashmap);
+   //使用get方法来获取key对应的value
+   System.out.println("key为1的元素是：" + hashmap.get(1));
+   //使用remove方法来移除key对应的元素
+   hashmap.remove(1);
+   System.out.println("Map: " + hashmap);
+   ```
+
+   ![image-20250628202748348](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628202748348.png)
+
+2. LinkedHashMap：保留插入顺序
+
+3. TreeMap:按照key来排序
+
+Queue:
+
+1. LinkedList
+
+   ```java
+   //queue
+   //offer方法添加元素，poll方法取出队首元素，peek方法查看队首元素
+   LinkedList<String> queue = new LinkedList<>();
+   queue.offer("apple");
+   queue.offer("banana");
+   queue.offer("orange");
+   System.out.println("Queue: " + queue);
+   //取出队列所有元素
+   while(!queue.isEmpty()) {
+       System.out.println(queue.poll());
+   }
+   ```
+
+   ![image-20250628202809593](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250628202809593.png)
+
+2. PriorityQueue:优先队列
+
+Iterator接口：
+
+提供了遍历集合的方法：
+
+hasNext():用于判断是否还有下一个元素
+
+next():返回当前所在元素并且使迭代器后移一个元素
+
+remove():删除掉当前的元素
+
+## 线程（1）
+
+![image-20250628220526751](C:\Users\11379\AppData\Roaming\Typora\typora-user-images\image-20250628220526751.png)
+
+### 线程的概念
+
+线程是程序内部的顺序控制流
+
+线程和进程：
+
+* 每个进程都有独立的代码和内存空间（进程的上下文），进程切换的开销比较大
+* 线程则是轻量的线程，同一类线程共享代码和数据空间（就是线程类，同一个类的run()函数和成员变量都相同），每一个线程有独立的栈和程序计数器，线程的切换开销比较小
+
+多进程：操作系统能够同时运行多个进程（程序），比如同时使用浏览器和编辑器，他们每个都占据一个进程，此时对于操作系统来说就是多进程
+
+多线程：同一个应用程序中，多个顺序流同时运行（比如浏览器中同时下载多个图片，服务器同时处理多个请求，用户界面中专门开一个线程来收集用户界面的事件（比如执行某个操作的过程中用户可以终止程序））
+
+java的线程通过Thread类来实现
+
+每个线程通过Thread类对象的run()方法来实现，也就是线程执行过程中就会执行run()方法中的代码
+
+Java中每个线程都有自己的名字，可以使用构造函数来指定名字，如果不指定，则系统会自动给出
+
+### 创建线程的方式
+
+1. 通过Thread类创建线程
+   * 从Thread类派生出子类，并且创建子类的对象
+   * 子类中重写run()方法，run()方法中放入线程中需要执行的代码
+   * 调用start()方法进入线程，此时会自动进入run()方法
+
+```java
+//继承了Thread类
+class FactorialThread extends Thread{
+    //里面可以有成员变量
+    private int num;
+    public FactorialThread(int num){
+        this.num = num;
+    }
+    //重写了run()方法，这就是线程执行的代码
+    @Override
+    public void run(){
+        System.out.println("the new thread is start");
+        int result = 1;
+        for(int i = 1; i <= num; i++){
+            result *= i;
+        }
+        System.out.println("the result is " + result + " for " + num);
+        System.out.println("the new Thread is end");
+    }
+}
+
+public class Test1 {
+    public static void main(String[] args) {
+        System.out.println("the main thread is start");
+        //创建线程对象
+        FactorialThread t1 = new FactorialThread(10);
+        //进入线程
+        t1.start();
+        System.out.println("the main thread is end");
+    }
+
+
+}
+
+```
+
+![image-20250629002632979](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629002632979.png)
+
+注意在这个例子中，主进程结束之后新的线程才开始运行
+
+主线程在调用start()方法后并不会等待新线程，而是继续执行，线程的run()方法在一旁继续运行，不会影响主线程（并行处理）
+
+2. 使用Runnable接口来创建线程
+   * 创建方式`Thread t = new Thread(Runnable target)`，其中target是一个实现了Runnable接口的类对象，这里实际上是调用了Thread类的构造函数
+
+```java
+//实现Runnable接口
+class RunnableThread implements Runnable {
+   private int sleepTime;
+   public RunnableThread() {
+       sleepTime = (int)(6000*Math.random());
+   }
+   public void run(){
+       System.out.println(Thread.currentThread().getName() + " is running");
+       System.out.println(Thread.currentThread().getName() + " is sleeping for " + sleepTime + " milliseconds");
+       try {
+           Thread.sleep(sleepTime);
+           System.out.println(Thread.currentThread().getName() + " is done");
+       }
+       catch (InterruptedException e) {
+           throw new RuntimeException(e);
+       }
+   }
+}
+
+
+public class TestRunnable {
+    public static void main(String[] args) {
+        System.out.println("The main thread is starting");
+        //创建实现了Runnable接口的类对象
+        RunnableThread t1 = new RunnableThread();
+        RunnableThread t2 = new RunnableThread();
+        RunnableThread t3 = new RunnableThread();
+        //使用Runnale接口来创建线程
+        Thread thread1 = new Thread(t1, "Thread 1");
+        Thread thread2 = new Thread(t2, "Thread 2");
+        Thread thread3 = new Thread(t3, "Thread 3");
+        thread1.start();
+        thread2.start();
+        thread3.start();
+    }
+}
+
+```
+
+![image-20250629134831236](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629134831236.png)
+
+* Runnable接口中只有一个run()方法，所以只需要实现run()方法即可
+
+* Tread类实际上就是实现了Runnable接口
+
+* **便于多个线程共享资源**
+
+​		使用同一个对象创建的多个线程内部的数据是共享的，这样就可以创建出多组线程，同组线程内部数据共享，不同组线程内部数据独立（比如说卖票，每种票的总数是固定的，那么我们可以创建出多个实现了Runnable接口的类对象，每个对象对应一种票，里面规定了票数，再用对象创建出多个线程来卖票）
+
+* **有时某个类已经继承了一个类，但是又想要这个类使用线程，此时就可以通过Runnable接口来实现**
+
+仍然使用start()方法来开启线程
+
+更加灵活，可以通过同一个对象来创建多个线程
+
+### 线程的休眠
+
+线程的执行可能需要等待资源输入，这时候就可以让线程休眠避免浪费资源
+
+可以用于控制请求频率
+
+对刚刚的代码进行修改，加入主线程休眠的语句：
+
+```java
+class FactorialThread extends Thread{
+    private int num;
+    public FactorialThread(int num){
+        this.num = num;
+    }
+    @Override
+    public void run(){
+        System.out.println("the new thread is start");
+        int result = 1;
+        for(int i = 1; i <= num; i++){
+            result *= i;
+        }
+        System.out.println("the result is " + result + " for " + num);
+        System.out.println("the new Thread is end");
+    }
+}
+
+public class Test1 {
+    public static void main(String[] args) {
+        System.out.println("the main thread is start");
+        FactorialThread t1 = new FactorialThread(10);
+        t1.start();
+        try{
+            //让主线程休眠1ms
+            Thread.sleep(1);
+        }
+        catch(Exception e){
+
+        }
+        System.out.println("the main thread is end");
+    }
+
+
+}
+
+
+```
+
+![image-20250629122723957](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629122723957.png)
+
+可以发现此时主线程在新线程开始之后才结束，原因就是我们通过Tread.sleep(1)让主线程休眠了1ms
+
+如果休眠时间再久一点：
+
+```java
+class FactorialThread extends Thread{
+    private int num;
+    public FactorialThread(int num){
+        this.num = num;
+    }
+    @Override
+    public void run(){
+        System.out.println("the new thread is start");
+        int result = 1;
+        for(int i = 1; i <= num; i++){
+            result *= i;
+        }
+        System.out.println("the result is " + result + " for " + num);
+        System.out.println("the new Thread is end");
+    }
+}
+
+public class Test1 {
+    public static void main(String[] args) {
+        System.out.println("the main thread is start");
+        FactorialThread t1 = new FactorialThread(10);
+        t1.start();
+        try{
+            Thread.sleep(10);
+        }
+        catch(Exception e){
+
+        }
+        System.out.println("the main thread is end");
+    }
+
+
+}
+
+```
+
+![image-20250629123040931](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629123040931.png)
+
+可以发现主线程在新线程结束后才开始
+
+
+
+案例：
+
+```java
+class TestThread extends Thread{
+    //休眠的时间
+    private int sleepTime;
+    public TestThread (String name) {
+        //调用父类的构造方法，为线程起名
+        super(name);
+        //随机生成休眠时间
+        sleepTime = (int)(Math.random()*6000);
+    }
+    @Override
+    public void run() {
+        System.out.println(getName() + " is running");
+        try {
+            //休眠
+            System.out.println(getName() + " is sleeping for " + sleepTime + " milliseconds");
+            Thread.sleep(sleepTime);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(getName() + " is done");
+    }
+}
+
+
+
+
+public class TestSleep {
+    public static void main(String[] args) {
+        System.out.println("The main thread is starting");
+        TestThread t1 = new TestThread("Thread 1");
+        TestThread t2 = new TestThread("Thread 2");
+        TestThread t3 = new TestThread("Thread 3");
+        t1.start();
+        t2.start();
+        t3.start();
+        System.out.println("The main thread is ending");
+    }
+}
+
+```
+
+![image-20250629124828808](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629124828808.png)
+
+观察运行结果发现，休眠时间短的线程先结束
+
+### Thread类常用API
+
+![image-20250629130706221](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629130706221.png)
+
+![image-20250629130732556](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629130732556.png)
+
+![image-20250629130753237](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629130753237.png)
+
+### 线程之间数据的共享
+
+使用同一个Runnable对象创建出来的线程会共享对象内的数据和代码
+
+```java
+class RunnableThread2 implements Runnable {
+    private int sleepTime;
+    public RunnableThread2() {
+        sleepTime = (int)(6000*Math.random());
+    }
+    public void run(){
+        System.out.println(Thread.currentThread().getName() + " is running");
+        System.out.println(Thread.currentThread().getName() + " is sleeping for " + sleepTime + " milliseconds");
+        try {
+            Thread.sleep(sleepTime);
+            System.out.println(Thread.currentThread().getName() + " is done");
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+
+public class TestShare {
+    public static void main(String[] args) {
+        System.out.println("The main thread is starting");
+        RunnableThread2 r1 = new RunnableThread2();
+        //这三个线程都是通过r1这个对象来创建的，因此三个线程共享r1内的成员变量sleepTime
+        Thread t1 = new Thread(r1, "Thread 1");
+        Thread t2 = new Thread(r1, "Thread 2");
+        Thread t3 = new Thread(r1, "Thread 3");
+        t1.start();
+        t2.start();
+        t3.start();
+        System.out.println("The main thread is ending");
+    }
+}
+
+```
+
+
+
+![image-20250629141158069](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629141158069.png)
+
+可以发现这三个线程的sleepTime是一样的
+
+
+
+
+
+* 使用同一个对象创建的多个线程内部的数据是共享的，这样就可以创建出多组线程，同组线程内部数据共享，不同组线程内部数据独立（比如说卖票，每种票的总数是固定的，那么我们可以创建出多个实现了Runnable接口的类对象，每个对象对应一种票，里面规定了票数，再用对象创建出多个线程来卖票）
+
+* 多个线程共用同一个 Runnable 对象时，它们共享该对象的成员变量；多个线程使用不同对象时，则各自拥有独立的资源。这种设计允许我们按需构造“线程组”，实现资源共享与隔离的灵活切换，是多线程资源管理的基本模式
+* 当存在共享资源的时候可能会出现线程安全的问题，比如说：`if (tickets > 0) {
+      --tickets;
+  }`当两个线程同时进行判断的时候，均有target == 1,于是两个线程都将最后一张票卖了出去，出现线程安全问题
+* 可以使用锁来协调多个线程对共享资源的操控，之后会详细介绍
+
+```java
+class TicketsTask implements Runnable {
+    //剩余票数
+    private int ticketsNum;
+    //票名
+    private final String ticketsName;
+    //锁对象
+    private final Object lock = new Object();
+    boolean haveTickets = true;
+    public TicketsTask (int ticketsNum, String ticketsName) {
+        this.ticketsNum = ticketsNum;
+        this.ticketsName = ticketsName;
+    }
+    @Override
+    public void run() {
+        while (true) {
+            /*
+             每一个 TicketTask 对象都有一个独立的锁对象 lock。
+			当多个线程共享同一个 TicketTask 对象时，它们会竞争这同一把锁。
+			只有抢到锁的线程（线程A）才能进入 synchronized(lock) 中的临界区代码。
+			其他线程（线程B、线程C等）必须等待线程A执行完并释放锁，才能继续。
+		   */
+            //当然，这里任意一个实例对象都可以，只是要让进程去竞争同一个对象的锁，从而实现互斥控制
+            synchronized (lock) {
+                if (ticketsNum <= 0) {
+                    if(haveTickets) {
+                        haveTickets = false;
+                        System.out.println(ticketsName + "已经售罄");
+                    }
+                    break;
+                }
+                ticketsNum--;
+                System.out.println(Thread.currentThread().getName() + "卖出了一张" + ticketsName+ "，剩余票数： " + ticketsNum);
+
+            }
+            //用来模拟购票时间
+            try {
+                Thread.sleep((int)(1000*Math.random()));
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+}
+
+
+public class SaleTickets {
+    public static void main(String[] args) {
+        //每个TicketsTask类对象都对应一种票的销售
+        TicketsTask t1 = new TicketsTask(10, "A票");
+        TicketsTask t2 = new TicketsTask(10, "B票");
+        TicketsTask t3 = new TicketsTask(10, "C票");
+        //每个对象可以创建多个线程，代表使用多个窗口来销售同一种票
+        Thread thread11 = new Thread(t1, "A票窗口1");
+        Thread thread12 = new Thread(t1, "A票窗口2");
+        Thread thread13 = new Thread(t1, "A票窗口3");
+        Thread thread21 = new Thread(t2, "B票窗口1");
+        Thread thread22 = new Thread(t2, "B票窗口2");
+        Thread thread23 = new Thread(t2, "B票窗口3");
+        Thread thread31 = new Thread(t3, "C票窗口1");
+        Thread thread32 = new Thread(t3, "C票窗口2");
+        Thread thread33 = new Thread(t3, "C票窗口3");
+        thread11.start();
+        thread12.start();
+        thread13.start();
+        thread21.start();
+        thread22.start();
+        thread23.start();
+        thread31.start();
+        thread32.start();
+        thread33.start();
+
+    }
+}
+```
+
+![image-20250629145301676](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629145301676.png)
+
+## 线程（2）
+
+![image-20250629145810709](https://raw.githubusercontent.com/hhr2449/pictureBed/main/img/image-20250629145810709.png)
+
+### 多线程的同步控制
+
+* 有时候线程之间并不独立，需要同步
+  * 线程同步：在多个线程并发执行的时候，保证他们按照一定的次序执行来避免发生错误
+    
+  * 生产者和消费者问题
+    * 生产者负责取出数据放入缓存区
+    
+    * 消费者从缓存区取出数据
+    
+    * 如果不对生产者线程和消费者线程加以同步，则会出现错误情况：缓存区满了，生产者还在放入；缓冲区空了，消费者还在取出；共享数据（缓存区）要保证每次只能有一个线程访问
+    
+    * 这里就需要进行线程同步，保证两个线程之间的协调
+    
+    * ```java
+      /* synchronized关键字：用于修饰代码块，被修饰的代码块被称为同步语句块
+         同一时间，同一个对象中的同步语句块只能有一个线程在执行
+         wait():当前进程停止运行，并且释放对象锁，进入等待池，等待被唤醒（注意，当这个线程再一次获取锁之后会从wait()处继续执行）
+         notify():唤醒等待池（当前对象的）中的某个进程，注意此时进程会进入锁竞争队列而不是直接得到锁
+      */
+      /*
+          设计思路：设计一个buffer类，用于表示产品的缓冲区，里面维护一个队列，队列中存放产品
+          （可以将一个buffer类对象看成一个仓库，线程就是负责装货和取货的工人，
+          同一时间只能有一个工人有钥匙进入，如果这个工人无法取货/装货，则把钥匙给另一个工人）
+          提供生产方法和消费方法，这两个方法都是同步方法，从而保证同一个缓冲区对象只能有一个线程进行操作
+          生产方法中：1.判断当前缓冲区是否已满，如果已满则让当前线程等待，
+          这时候对象锁会释放，消费线程获取对象锁，开始取出产品，取出产品后消费线程会唤醒生产线程
+          2.如果缓冲区未满，则将产品放入缓冲区，并通知消费线程可以开始消费
+          消费方法也类似
+       */
+      
+      import java.util.LinkedList;
+      import java.util.Queue;
+      
+      class Buffer {
+          private final Queue<Integer> queue;
+          private final int MAX_SIZE;
+          Buffer(int size) {
+              MAX_SIZE = size;
+              queue = new LinkedList<>();
+          }
+          public synchronized void produce(int value) {
+              while (queue.size() >= MAX_SIZE) {
+                  System.out.println("缓冲区已满，请等待消费");
+                  try{
+                      wait();
+                  }
+                  catch (InterruptedException e) {
+                      throw new RuntimeException(e);
+                  }
+              }
+              queue.offer(value);
+              notify();
+              System.out.println("生产者生产了：" + value);
+      
+      
+          }
+          public synchronized void consume() {
+              while (queue.isEmpty()) {
+                  System.out.println("缓冲区为空，等待生产");
+                  try {
+                      wait();
+                  }
+                  catch (InterruptedException e) {
+                      throw new RuntimeException(e);
+                  }
+              }
+              int value = queue.poll();
+              notify();
+              System.out.println("消费者消费了：" + value);
+          }
+      }
+      class producer implements Runnable {
+          private Buffer buffer;
+          public producer(Buffer buffer) {
+              this.buffer = buffer;
+          }
+          @Override
+          public void run() {
+              try {
+                  for(int i = 0; i < 20; i++) {
+                      buffer.produce(i);
+                      Thread.sleep((int)(1000*Math.random()));
+                  }
+              }
+              catch(Exception e) {
+                  e.printStackTrace();
+              }
+          }
+      
+      }
+      class consumer implements Runnable {
+          private Buffer buffer;
+          public consumer(Buffer buffer) {
+              this.buffer = buffer;
+          }
+          @Override
+          public void run() {
+              try {
+                  for(int i = 0; i < 20; i++) {
+                      buffer.consume();
+                      Thread.sleep((int)(1000*Math.random()));
+                  }
+              }
+              catch(Exception e) {
+                  e.printStackTrace();
+              }
+          }
+      }
+      
+      public class Test {
+          public static void main(String[] args) {
+              Buffer buffer = new Buffer(3);
+              Runnable produce = new producer(buffer);
+              Runnable consume = new consumer(buffer);
+              Thread t1 = new Thread(produce, "Producer");
+              Thread t2 = new Thread(consume, "Consumer");
+              t1.start();
+              t2.start();
+          }
+      
+      
+      }
+      ```
+
+线程同步的两种关系：
+
+1. 互斥：
+   * 同时运行的数据可能需要共享一些数据
+   * 这些共享的数据在某个时刻只允许一个线程对此进行操作，这就是线程之间的互斥。因此有一些方法或代码块同一时间只允许一个线程执行，称为监视区
+   * 只要有多个线程需要访问共享数据，并且至少有一个线程存在对共享数据的修改操作就必须保证同一时间只能由一个线程进行共享数据区的访问（加锁）
+   * 因为对数据的修改不是原子操作，比如说共享数据区内有两个变量，一个线程只修改了一个变量就有另一个线程来读取变量，这样这个线程就会读取到错误的数据
+2. 协作：
+   * 多个线程可以有条件地共同操作共享数据区，执行监视去区的线程可以在条件满足的情况下允许其他线程进入监视区
+
+实现互斥关系：synchronized关键字
+
+`synchronized(obj){代码段}`
+
+首先判断对象obj的锁是否存在，如果存在，则获得锁并且执行区域中的代码段；如果锁不存在（已经被其他对象获取），则进入对象obj的线程池进行等待，知道获得锁才继续执行之后的代码段
+
+实际上是让{}括起来的区域的代码成为一个原子操作，即一个线程开始执行这个操作就不会有其他的线程来打断
+
+这里的obj可以任取，只要让线程去争夺这个对象的锁即可，又是会特意设置一个锁对象用来进行线程的同步
+
+也可以在方法前面加上synchronized关键字，让方法称为同步方法
+
+实例同步方法：同一个对象中的所有同步方法都共用同一把锁
+
+静态同步方法：同一个类的所有静态同步方法共用同一把锁
+
+* 线程休眠时不会释放它所持有的锁
+* 一个线程可以持有多个锁
+* 同步会损害并发性，应该尽可能地减少同步的范围
+
+
+
+### 线程的等待和唤醒
+
+等待：wait()方法
+
+唤醒：notify()和notifyAll()方法
+
+注意这些方法都要在某个对象的监视区内使用

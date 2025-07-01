@@ -1,6 +1,7 @@
 class Test2 {
-    void method1() throws ArithmeticException{
-        int a = 1/0;
+    void method1() throws ArrayIndexOutOfBoundsException{
+        int[] a = new int[4];
+        System.out.println(a[5]);
         System.out.println("Inside method1");
     }
 
