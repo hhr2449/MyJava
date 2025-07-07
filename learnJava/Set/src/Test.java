@@ -1,14 +1,17 @@
 import java.util.*;
 
 public class Test {
-    public static void main(String[] args) {
+    public static <Interger, iterator> void main(String[] args) {
         //ArrayList类似cpp中的 vector,可以动态扩容
-        ArrayList<String> arrayList = new ArrayList<> ();
+        List arrayList = new ArrayList ();
+        String[] s = {"aa","bb","cc"};
         //使用add方法添加元素
         arrayList.add("apple");
         arrayList.add("apple");
         arrayList.add("banana");
         arrayList.add("orange");
+        arrayList.add(new Integer(10));
+        arrayList.add(s);
         //使用remove方法移除元素
         arrayList.remove("banana");
         arrayList.add("pear");
@@ -78,6 +81,17 @@ public class Test {
         //使用remove方法来移除key对应的元素
         hashmap.remove(1);
         System.out.println("Map: " + hashmap);
+        Set ss = hashmap.keySet();
+        Iterator is = ss.iterator();
+        while(is.hasNext()) {
+            int key = (int)is.next();
+            System.out.println(hashmap.get(key));
+        }
+        Collection c = hashmap.values();
+        Iterator ic = c.iterator();
+        while(ic.hasNext()) {
+            System.out.println(ic.next());
+        }
 
         //queue
         //offer方法添加元素，poll方法取出队首元素，peek方法查看队首元素

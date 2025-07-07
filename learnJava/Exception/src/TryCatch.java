@@ -1,22 +1,26 @@
+import java.util.Scanner;
+
 class Test2 {
-    void method1() throws ArrayIndexOutOfBoundsException{
-        int[] a = new int[4];
-        System.out.println(a[5]);
-        System.out.println("Inside method1");
+    void method1() throws Exception{
+        Scanner sc = new Scanner (System.in);
+        String s = sc.next();
+        if(s.length() > 8) {
+            throw new Exception("Length is greater than 8");
+        }
     }
 
-    void method2() {
+    void method2() throws Exception {
         method1();
     }
 
-    void method3() {
+    void method3() throws Exception {
         method2();
     }
     void method4() {
         try {
             method3();
         }
-        catch (ArithmeticException e) {
+        catch (Exception e) {
             System.out.println("Caught");
             e.getMessage();
             e.printStackTrace();
